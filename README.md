@@ -2,7 +2,7 @@
 <html lang="ar">
 <head>
   <meta charset="UTF-8">
-  <title>لعبة 3D - البطل ضد الوحوش</title>
+  <title>لعبة البطل ضد الوحوش 3D</title>
   <style>
     body {
       margin: 0;
@@ -40,7 +40,10 @@
     <button onclick="attack()">هجوم ⚔️</button>
     <button onclick="skill()">مهارة ✨</button>
   </div>
+
+  <!-- تحميل مكتبة Three.js من الإنترنت -->
   <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+
   <script>
     let scene, camera, renderer;
     let hero, monsters = [];
@@ -120,4 +123,4 @@
     init();
   </script>
 </body>
-</html>
+</html> 
