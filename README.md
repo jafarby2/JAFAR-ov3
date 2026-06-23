@@ -1,97 +1,38 @@
-# JAFAR-ov3
-    
-<!DOCTYPE html
+<!DOCTYPE html>
 <html lang="ar" dir="rtl">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>الصفحة الشخصية - جعفر</title>
-  <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@600&family=Amiri&display=swap" rel="stylesheet" />
-  <style>
-    body {
-      margin: 0;
-      font-family: 'Cairo', 'Amiri', serif;
-      background: linear-gradient(135deg, #1e3c72, #2a5298);
-      color: #fff;
-      display: flex;
-      flex-direction: column;
-      min-height: 100vh;
-      justify-content: center;
-      align-items: center;
-      padding: 20px;
-      text-align: center;
-    }
-
-    h1 {
-      font-family: 'Amiri', serif;
-      font-size: 3.5rem;
-      color: #ffd700;
-      text-shadow: 2px 2px 8px rgba(0,0,0,0.7);
-      margin-bottom: 0.2em;
-    }
-
-    h2 {
-      font-size: 1.5rem;
-      font-style: italic;
-      color: #e0d775;
-      margin-bottom: 1.5em;
-      text-shadow: 1px 1px 5px rgba(0,0,0,0.5);
-    }
-
-    .buttons {
-      display: flex;
-      flex-direction: column;
-      gap: 15px;
-      width: 100%;
-      max-width: 320px;
-    }
-
-    .buttons a {
-      display: block;
-      padding: 15px;
-      font-size: 1.2rem;
-      font-weight: 600;
-      color: #222;
-      background: #ffd700;
-      border-radius: 50px;
-      text-decoration: none;
-      box-shadow: 0 4px 15px rgba(255, 215, 0, 0.4);
-      transition: background 0.3s, color 0.3s, box-shadow 0.3s;
-    }
-
-    .buttons a:hover {
-      background: #fff;
-      color: #bfa300;
-      box-shadow: 0 6px 20px rgba(255, 215, 0, 0.8);
-    }
-
-    @media (max-width: 400px) {
-      h1 {
-        font-size: 2.5rem;
-      }
-      h2 {
-        font-size: 1.1rem;
-      }
-      .buttons a {
-        font-size: 1rem;
-        padding: 12px;
-      }
-    }
-  </style>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Alpha Justice - Web 3D Game</title>
+    <link rel="stylesheet" href="style.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
 </head>
 <body>
 
-  <h1>جعفر</h1>
-  <h2>قسم التمريض - جامعة المنارة للعلوم الطبية</h2>
+    <div id="game-container"></div>
 
-  <div class="buttons">
-    <a href="https://www.tiktok.com/@_1_oke?_t=ZS-8yOlVY0ZaVD&_r=1" target="_blank" rel="noopener">تيك توك</a>
-    <a href="https://t.me/JAFAR_BY4" target="_blank" rel="noopener">تيليغرام</a>
-    <a href="https://youtube.com/@rv.c1?si=4E6y11gjDOLWq5Bm" target="_blank" rel="noopener">يوتيوب</a>
-  </div>
+    <div id="ui-container">
+        <div class="hud">
+            <div class="stat">الصحة (HP): <span id="hp-value">100</span></div>
+            <div class="stat">المستوى: <span id="level-value">1</span>/10</div>
+            <div class="stat">الأعداء المتبقين: <span id="enemies-value">3</span></div>
+        </div>
 
+        <div class="controls">
+            <div class="skills-bar">
+                <button id="btn-attack" class="skill-btn">هجوم عادي ⚔️</button>
+                <button id="btn-skill1" class="skill-btn special">صاعقة الرونز 🔥</button>
+                <button id="btn-skill2" class="skill-btn special">عدالة ألفا ⚡</button>
+            </div>
+            <div class="movement-hint">استخدم أسهم الكيبورد أو أزرار الحركة للتنقل</div>
+        </div>
+    </div>
+
+    <div id="screen-overlay" class="hidden">
+        <h1 id="overlay-title">لقد فزت!</h1>
+        <button id="btn-restart">اللعب مجدداً</button>
+    </div>
+
+    <script src="game.js"></script>
 </body>
 </html>
-
-
----
