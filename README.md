@@ -2,130 +2,122 @@
 <html lang="ar">
 <head>
   <meta charset="UTF-8">
-  <title>واجهة محل أسطورية</title>
+  <title>لعبة 3D - البطل ضد الوحوش</title>
   <style>
     body {
       margin: 0;
-      font-family: 'Tahoma', sans-serif;
-      background: linear-gradient(to right, #ffecd2, #fcb69f);
-    }
-    header {
-      background-color: #2c3e50;
-      color: white;
-      padding: 20px;
-      text-align: center;
-    }
-    nav {
-      display: flex;
-      justify-content: center;
-      background-color: #34495e;
-    }
-    nav a {
-      color: white;
-      padding: 14px 20px;
-      text-decoration: none;
-      transition: background 0.3s;
-    }
-    nav a:hover {
-      background-color: #1abc9c;
-    }
-    .hero {
-      height: 400px;
-      background: url('https://picsum.photos/1200/400?shop') center/cover no-repeat;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      color: white;
-      font-size: 40px;
-      font-weight: bold;
-      text-shadow: 2px 2px 5px #000;
-    }
-    .products {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-      gap: 20px;
-      padding: 40px;
-    }
-    .card {
-      background: white;
-      border-radius: 10px;
-      box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+      background: #111;
+      color: #fff;
+      font-family: Tahoma, sans-serif;
       overflow: hidden;
-      transition: transform 0.3s;
     }
-    .card:hover {
-      transform: scale(1.05);
-    }
-    .card img {
-      width: 100%;
-      height: 200px;
-      object-fit: cover;
-    }
-    .card h3 {
-      margin: 15px;
-      color: #2c3e50;
-    }
-    .card p {
-      margin: 0 15px 15px;
-      color: #7f8c8d;
-    }
-    .btn {
-      display: block;
-      margin: 15px;
+    #hud {
+      position: absolute;
+      top: 10px;
+      left: 10px;
+      background: rgba(0,0,0,0.5);
       padding: 10px;
-      text-align: center;
-      background-color: #1abc9c;
-      color: white;
-      text-decoration: none;
+      border-radius: 8px;
+    }
+    button {
+      margin: 5px;
+      padding: 10px;
+      background: #444;
+      color: #fff;
+      border: none;
       border-radius: 5px;
-      transition: background 0.3s;
+      cursor: pointer;
     }
-    .btn:hover {
-      background-color: #16a085;
-    }
-    footer {
-      background-color: #2c3e50;
-      color: white;
-      text-align: center;
-      padding: 15px;
-      margin-top: 20px;
+    button:hover {
+      background: #666;
     }
   </style>
 </head>
 <body>
-  <header>
-    <h1>متجر الأحلام</h1>
-    <p>أفضل المنتجات بأجمل الأسعار</p>
-  </header>
-  <nav>
-    <a href="#">الرئيسية</a>
-    <a href="#">المنتجات</a>
-    <a href="#">عروض</a>
-    <a href="#">تواصل معنا</a>
-  </nav>
-  <div class="hero">مرحبا بكم في متجرنا ✨</div>
-  <section class="products">
-    <div class="card">
-      <img src="https://picsum.photos/300/200?item1" alt="منتج 1">
-      <h3>منتج 1</h3>
-      <p>وصف قصير للمنتج.</p>
-      <a href="#" class="btn">اشتري الآن</a>
-    </div>
-    <div class="card">
-      <img src="https://picsum.photos/300/200?item2" alt="منتج 2">
-      <h3>منتج 2</h3>
-      <p>وصف قصير للمنتج.</p>
-      <a href="#" class="btn">اشتري الآن</a>
-    </div>
-    <div class="card">
-      <img src="https://picsum.photos/300/200?item3" alt="منتج 3">
-      <h3>منتج 3</h3>
-      <p>وصف قصير للمنتج.</p>
-      <a href="#" class="btn">اشتري الآن</a>
-    </div>
-  </section>
-  <footer>
-    <p>© 2026 متجر الأحلام - جميع الحقوق محفوظة</p>
-  </footer>
+  <div id="hud">
+    <h1>🎮 لعبة البطل</h1>
+    <p>المستوى: <span id="level">1</span> | النقاط: <span id="score">0</span></p>
+    <button onclick="attack()">هجوم ⚔️</button>
+    <button onclick="skill()">مهارة ✨</button>
+  </div>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+  <script>
+    let scene, camera, renderer;
+    let hero, monsters = [];
+    let level = 1, score = 0;
+
+    function init() {
+      scene = new THREE.Scene();
+      camera = new THREE.PerspectiveCamera(75, window.innerWidth/window.innerHeight, 0.1, 1000);
+      renderer = new THREE.WebGLRenderer();
+      renderer.setSize(window.innerWidth, window.innerHeight);
+      document.body.appendChild(renderer.domElement);
+
+      // أرضية
+      const planeGeometry = new THREE.PlaneGeometry(50, 50);
+      const planeMaterial = new THREE.MeshBasicMaterial({color: 0x333333});
+      const plane = new THREE.Mesh(planeGeometry, planeMaterial);
+      plane.rotation.x = -Math.PI/2;
+      scene.add(plane);
+
+      // البطل
+      const heroGeometry = new THREE.BoxGeometry(1, 2, 1);
+      const heroMaterial = new THREE.MeshBasicMaterial({color: 0x00ff00});
+      hero = new THREE.Mesh(heroGeometry, heroMaterial);
+      hero.position.y = 1;
+      scene.add(hero);
+
+      camera.position.set(0, 5, 10);
+      camera.lookAt(hero.position);
+
+      spawnMonsters();
+      animate();
+    }
+
+    function spawnMonsters() {
+      monsters.forEach(m => scene.remove(m));
+      monsters = [];
+      let count = level * 2;
+      for (let i = 0; i < count; i++) {
+        const monsterGeometry = new THREE.SphereGeometry(1, 16, 16);
+        const monsterMaterial = new THREE.MeshBasicMaterial({color: 0xff0000});
+        const monster = new THREE.Mesh(monsterGeometry, monsterMaterial);
+        monster.position.set(Math.random()*20-10, 1, Math.random()*20-10);
+        scene.add(monster);
+        monsters.push(monster);
+      }
+      // زعيم المستوى 5 و 10
+      if (level === 5 || level === 10) {
+        const bossGeometry = new THREE.BoxGeometry(3, 4, 3);
+        const bossMaterial = new THREE.MeshBasicMaterial({color: 0x0000ff});
+        const boss = new THREE.Mesh(bossGeometry, bossMaterial);
+        boss.position.set(0, 2, -5);
+        scene.add(boss);
+        monsters.push(boss);
+      }
+    }
+
+    function attack() {
+      score += 10;
+      document.getElementById("score").innerText = score;
+      if (score >= level * 50) {
+        level++;
+        document.getElementById("level").innerText = level;
+        if (level <= 10) spawnMonsters();
+      }
+    }
+
+    function skill() {
+      score += 25;
+      document.getElementById("score").innerText = score;
+    }
+
+    function animate() {
+      requestAnimationFrame(animate);
+      renderer.render(scene, camera);
+    }
+
+    init();
+  </script>
 </body>
 </html>
